@@ -1,7 +1,8 @@
+from multiprocessing import context
 from django.shortcuts import render
 from datetime import date
 
-posts = [
+all_posts = [
     {
         "slug": "hike-in-the-mountains",
         "image": "mountains.jpg",
@@ -67,19 +68,24 @@ posts = [
     }
 ]
 
+def get_date(post):
+    return post["date"]
 
 def first_page(request):
     # see the first page here
+    sorted_posts = sorted(all_posts, key=get_date)
 
-    return(render(request, "blog/first_page.html"))
+    return render(request, "blog/first_page.html", context={
+        "posts": sorted_posts[-3:]
+    })
 
 
 def posts(request):
     # see posts here
-    return(render(request, "blog/posts.html"))
+    return render(request, "blog/posts.html")
 
 
 def post(request, slug):
     # see indivisual post here
 
-    return(render(request, "blog/post.html"))
+    return render(request, "blog/post.html")
