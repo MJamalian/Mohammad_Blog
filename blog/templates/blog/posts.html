@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} 
+{% block page_title %} 
 All My Posts
 {% endblock %} 
 
@@ -15,12 +15,9 @@ All My Posts
   <h2>My Collected Posts</h2>
 
   <ul>
-    {% include "blog/includes/post_preview.html" %}
-    {% include "blog/includes/post_preview.html" %}
-    {% include "blog/includes/post_preview.html" %}
-    {% include "blog/includes/post_preview.html" %}
-    {% include "blog/includes/post_preview.html" %}
-    {% include "blog/includes/post_preview.html" %}
+    {% for post in posts %}
+      {% include "blog/includes/post_preview.html" %}
+    {% endfor %}
   </ul>
 </section>
 {% endblock %}

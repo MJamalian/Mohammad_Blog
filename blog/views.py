@@ -82,10 +82,18 @@ def first_page(request):
 
 def posts(request):
     # see posts here
-    return render(request, "blog/posts.html")
+
+    sorted_posts = sorted(all_posts, key=get_date)
+    return render(request, "blog/posts.html", context={
+        "posts": sorted_posts
+    })
 
 
 def post(request, slug):
     # see indivisual post here
 
-    return render(request, "blog/post.html")
+    my_post = next((post for post in all_posts if post["slug"] == slug), all_posts[0])
+
+    return render(request, "blog/post.html", context={
+        "post": my_post
+    })
