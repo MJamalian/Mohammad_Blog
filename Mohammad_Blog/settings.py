@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+import django
+
+from django.db.models import BigAutoField
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField' 
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,3 +129,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ 
     BASE_DIR / "static"
 ]
+
+MEDIA_ROOT = BASE_DIR / "uploads"
+
+MEDIA_URL = "/images/"
