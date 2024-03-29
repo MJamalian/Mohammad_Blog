@@ -1,32 +1,36 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from .models import Post
+from django.views.generic import ListView, DetailView
 
 
-def first_page(request):
-    # see the first page here
-    posts = Post.objects.all().order_by("-date")[:3]
+class first_page(ListView):
+    template_name = "blog/first_page.html"
+    model = Post
+    context_object_name = "posts"
 
-    return render(request, "blog/first_page.html", context={
-        "posts": posts
-    })
+    def get_queryset(self):
+        query_set =  super().get_queryset()
+        return query_set.order_by("-date")[:3]
+    
 
+class posts(ListView):
+    template_name = "blog/posts.html"
+    model = Post
+    context_object_name = "posts"
 
-def posts(request):
-    # see posts here
+    def get_queryset(self):
+        query_set = super().get_queryset()
+        return query_set.order_by("-date")
 
-    posts = Post.objects.all().order_by("-date")
-    return render(request, "blog/posts.html", context={
-        "posts": posts
-    })
+class post(DetailView):
+    template_name = "blog/post.html"
+    model = Post
 
-
-def post(request, slug):
-    # see indivisual post here
-
-    my_post = get_object_or_404(Post, slug=slug)
-
-    return render(request, "blog/post.html", context={
-        "post": my_post,
-        "post_tags": my_post.tags.all()
-    })
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["post_tags"] = self.object.tags.all() 
+        return context
+    
